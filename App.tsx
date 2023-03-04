@@ -9,6 +9,23 @@ import React, { useState } from 'react';
 import C3POReactNativeBle from "@secretarium/react-native-ble";
 import uuid from 'react-native-uuid';
 import { ActivityIndicator, FlatList, NativeEventEmitter, TextInput } from 'react-native';
+import MetaMaskSDK from '@metamask/sdk';
+import { Linking } from 'react-native';
+import BackgroundTimer from 'react-native-background-timer';
+
+const MMSDK = new MetaMaskSDK({
+  openDeeplink: (link) => {
+    Linking.openURL(link); // Use React Native Linking method or your favourite way of opening deeplinks
+  },
+  timer: BackgroundTimer, // To keep the app alive once it goes to background
+  dappMetadata: {
+    name: 'My App', // The name of your application
+    url: 'https://myapp.com', // The url of your website
+  },
+});
+
+const ethereum = MMSDK.getProvider();
+
 
 const eventEmitter = new NativeEventEmitter(C3POReactNativeBle);
 
@@ -77,6 +94,11 @@ function App(): JSX.Element {
     const subscription = eventEmitter.addListener('onDeviceFound', deviceDiscovered);
     await C3POReactNativeBle.scan();
   }
+
+  const connectMetamask = async () => {
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    console.log(accounts);
+  }
   type ItemProps = {name: string, rssi: number, id: string};
 
   const Item = ({name, id, rssi}: ItemProps) => {
@@ -110,6 +132,7 @@ function App(): JSX.Element {
       <Text></Text>
       <Text style={styles.inviteTitle}>Invite Members</Text>
       <TextInput onChangeText={text => setDeviceName(text)} />
+      <Button title="Metamask" onPress={connectMetamask} />
         {!isBroadcasting ?
           <Button onPress={startBroadast} title='Start Broadcast' />
         :
