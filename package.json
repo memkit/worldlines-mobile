@@ -11,11 +11,12 @@
     "postinstall": "rn-nodeify --install 'crypto,process,stream,events' --hack"
   },
   "dependencies": {
+    "@ethersproject/shims": "^5.7.0",
     "@metamask/sdk": "^0.1.0",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@secretarium/react-native-ble": "^0.1.2",
     "crypto": "^1.0.1",
-    "ethers": "^6.0.8",
+    "ethers": "^5",
     "events": "^3.3.0",
     "process": "^0.11.10",
     "react": "18.2.0",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
     "@react-native-community/eslint-config": "^3.2.0",

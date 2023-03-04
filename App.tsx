@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React, {useState, PropsWithChildren} from 'react';
 import C3POReactNativeBle from '@secretarium/react-native-ble';
 import uuid from 'react-native-uuid';
 import {
@@ -13,10 +13,27 @@ import {
   FlatList,
   NativeEventEmitter,
   TextInput,
+  Button,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+  Linking,
 } from 'react-native';
 import MetaMaskSDK from '@metamask/sdk';
-import {Linking} from 'react-native';
 import BackgroundTimer from 'react-native-background-timer';
+import {
+  Colors,
+  DebugInstructions,
+  Header,
+  LearnMoreLinks,
+  ReloadInstructions,
+} from 'react-native/Libraries/NewAppScreen';
+import "@ethersproject/shims"
+import {ethers} from 'ethers';
 
 const MMSDK = new MetaMaskSDK({
   openDeeplink: link => {
@@ -35,26 +52,6 @@ const provider = new ethers.providers.Web3Provider(ethereum);
 
 const eventEmitter = new NativeEventEmitter(C3POReactNativeBle);
 
-import type {PropsWithChildren} from 'react';
-import {
-  Button,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {ethers} from 'ethers';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -108,7 +105,9 @@ function App(): JSX.Element {
   const connectMetamask = async () => {
     const accounts = await ethereum.request({method: 'eth_requestAccounts'});
     console.log(accounts);
-    var name = await provider.lookupAddress(accounts);
+    const signer = provider.getSigner();
+    var name = await provider.lookupAddress(accounts[0]);
+
     console.log('ENS name is ' + name);
   };
   type ItemProps = {name: string; rssi: number; id: string};
