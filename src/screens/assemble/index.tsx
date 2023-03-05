@@ -116,7 +116,6 @@ const Minting = () => {
                   <Text style={styles.artifactLabel}>{item.title}</Text>
                   <Text style={styles.sizeLabel}>{item.size}</Text>
                 </TouchableOpacity>
-              {/* <View style={styles.flexGrow} /> */}
               </MenuView>
             </View>
           ))}
@@ -136,7 +135,7 @@ const Minting = () => {
         <Text style={styles.sliderLabel}>3 years</Text>
         </View>
         <Text style={styles.durationLabel}>Your Mem will be stored for {displayedNumber} {displayedPeriod}.</Text>
-        <PrimaryButton onPress={doMint}>Mint for {(duration * 0.00175).toFixed(3)} MEMS</PrimaryButton>
+        <PrimaryButton onPress={doMint}>Mint for {(duration * 0.00179817352).toFixed(3)} MEMS</PrimaryButton>
       </View>
   )
 }
