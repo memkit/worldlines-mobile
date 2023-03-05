@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, FlatList, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PrimaryButton from '../../components/PrimaryButton';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { AssembleStart } from './AssembleStart';
@@ -7,6 +7,8 @@ import { Assembling } from './Assembling';
 import { navigate } from '../../navigation';
 import Slider from '@react-native-community/slider';
 import { Icons } from '../../assets/icons';
+import LinearGradient from "react-native-linear-gradient";
+import { MenuView } from '@react-native-menu/menu';
 
 export type NavigatorParamList = {
   start: undefined,
@@ -21,18 +23,24 @@ const Minting = () => {
     contents: [
       {
         type: 'note',
+        title: 'Agenda',
         size: '2Kb',
-        time: '4:02AM'
-      },
-      {
-        type: 'audio',
-        size: '35Kb',
-        time: '4:05AM',
+        time: '4:02AM',
+        icon: <Icons.note color={'#F3B421'} size={30} />,
       },
       {
         type: 'photo',
+        title: 'Whiteboard Drawing',
         size: '4Mb',
+        time: '4:05AM',
+        icon: <Icons.camera color={'magenta'} size={30} />,
+      },
+      {
+        type: 'audio',
+        title: 'My Commentary',
+        size: '35Kb',
         time: '4:11AM',
+        icon: <Icons.audio color={'red'} size={30} />,
       },
     ],
   })
@@ -57,6 +65,63 @@ const Minting = () => {
             <Icons.edit color='darkgray' size={30} />
           </TouchableOpacity>
         </View>
+        <LinearGradient
+          colors={['#00FFFF', '#17C8FF', '#329BFF', '#4C64FF', '#6536FF', '#8000FF']}
+          start={{x: 0.0, y: 1.0}} end={{x: 1.0, y: 1.0}}
+          style={styles.nftGradient}
+        >
+
+        <View style={styles.nftContainer}>
+          {nft.contents.map(item => (
+            <View style={styles.nftRowContainer}>
+              <View style={styles.nftTimeContainer}>
+                <View style={styles.nftTimeLine} />
+                <View style={styles.nftTimeDot} />
+                <Text style={styles.nftTimestampLabel}>{item.time}</Text>
+                <View style={styles.nftTimeDot} />
+                <View style={styles.nftTimeLine} />
+              </View>
+              {item.icon}
+              <MenuView
+                onPressAction={({ nativeEvent }) => {
+                  console.warn(JSON.stringify(nativeEvent));
+                }}
+                actions={[
+                  {
+                    id: 'rename',
+                    title: 'Rename',
+                    titleColor: '#46F289',
+                    subtitle: 'Share action on SNS',
+                    image: Platform.select({
+                      ios: 'pencil.and.outline',
+                      android: 'ic_menu_share',
+                    }),
+                    imageColor: 'black',
+                  },
+                  {
+                    id: 'destructive',
+                    title: 'Remove',
+                    attributes: {
+                      destructive: true,
+                    },
+                    image: Platform.select({
+                      ios: 'trash',
+                      android: 'ic_menu_delete',
+                    }),
+                  },
+                ]}
+                shouldOpenOnLongPress={true}
+              >
+                <TouchableOpacity style={styles.artifactDetailsContainer}>
+                  <Text style={styles.artifactLabel}>{item.title}</Text>
+                  <Text style={styles.sizeLabel}>{item.size}</Text>
+                </TouchableOpacity>
+              {/* <View style={styles.flexGrow} /> */}
+              </MenuView>
+            </View>
+          ))}
+        </View>
+        </LinearGradient>
         <View style={styles.sliderContainer}>
           <Text style={styles.sliderLabel}>24 hours</Text>
         <Slider
@@ -80,9 +145,9 @@ export const Assemble = () => {
 
   return (
     <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <Stack.Screen name='start' component={AssembleStart} />
       <Stack.Screen name='assembling' component={Assembling} />
@@ -92,6 +157,62 @@ export const Assemble = () => {
 }
 
 export const styles = StyleSheet.create({
+  artifactLabel: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  artifactDetailsContainer: {
+    padding: 10,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  sizeLabel: {
+    fontSize: 16,
+    fontWeight: '500',
+    paddingTop: 3,
+    color: 'rgb(54, 123, 246)',
+  },
+  nftRowContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  nftTimeContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 0,
+    width: 65
+  },
+  nftGradient: {
+    padding: 8,
+    borderRadius: 15,
+    margin: 32,
+    marginTop: -20,
+  },
+  nftContainer: {
+    backgroundColor: '#f2f2f2',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: 10,
+    padding: 10,
+  },
+  nftTimestampLabel: {
+    fontSize: 14,
+    color: 'darkgray',
+    padding: 5,
+  },
+  nftTimeLine: {
+    borderLeftColor: 'black',
+    height: 20,
+    borderLeftWidth: StyleSheet.hairlineWidth,
+  },
+  nftTimeDot: {
+    height: 2,
+    width: 2,
+    margin: 3,
+    backgroundColor: 'black',
+  },
   durationLabel: {
     fontSize: 20,
     textAlign: 'center',
