@@ -3,7 +3,9 @@ export interface BaseAction {
     payload?: any
 }
 
-export interface CommonState {}
+export interface CommonState {
+    currentRoute: string
+}
 
 
 export interface AppState {

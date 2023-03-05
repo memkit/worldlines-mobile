@@ -35,7 +35,7 @@ const HomeTabNavigator = () => {
                 })}
                 component={Assemble}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="World"
                 options={(route) => ({
                     tabBarLabel: 'World',
@@ -46,7 +46,7 @@ const HomeTabNavigator = () => {
                     },
                 })}
                 component={World}
-            />
+            /> */}
             <Tab.Screen
                 name="Lines"
                 options={(route) => ({

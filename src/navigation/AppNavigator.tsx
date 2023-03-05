@@ -2,7 +2,6 @@
 import React from "react"
 import { NavigationContainer} from "@react-navigation/native"
 import { navigationRef, useBackButtonHandler } from "./NavigationUtilities"
-import { routes } from "./Routes"
 import { MainStackNavigator } from './MainStackNavigator'
 import useTheme from "../hooks/useTheme"
 
@@ -24,5 +23,5 @@ export const AppNavigator = (props: NavigationProps) => {
 
 AppNavigator.displayName = "AppNavigator"
 
-const exitRoutes = [routes.start]
+const exitRoutes: Array<string> = []
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)

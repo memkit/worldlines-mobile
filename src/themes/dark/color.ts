@@ -10,6 +10,7 @@ import { palette } from "../palette"
  * put that in the <Spinner /> component.
  */
 export const color = {
+  defaultbg: 'rgb(1,1,1)',
   /**
    * The palette is available to use, but prefer using the name.
    */

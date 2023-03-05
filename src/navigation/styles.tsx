@@ -12,7 +12,7 @@ export const createStyles = (theme: AppThemeProps) =>  StyleSheet.create({
     },
     headerBackgroundStyle: {
         shadowColor: 'transparent',
-        backgroundColor: '#f2f2f2',
+        backgroundColor: theme.color.defaultbg,
     },
     tabBarText: {
         fontSize: theme.WP('2.8'),

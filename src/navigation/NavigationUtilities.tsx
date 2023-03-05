@@ -6,6 +6,9 @@ import {
   NavigationAction,
   createNavigationContainerRef,
 } from "@react-navigation/native"
+import { useDispatch, useSelector } from 'react-redux';
+import { navigationChange } from "../store/common";
+import { store } from "../store";
 
 /* eslint-disable */
 export const RootNavigation = {
@@ -99,8 +102,8 @@ export function useNavigationPersistence(storage: any, persistenceKey: string) {
 
     if (previousRouteName !== currentRouteName) {
       // track screens.
-
       __DEV__ && console.log(currentRouteName)
+      store.dispatch(navigationChange(currentRouteName))
     }
 
     // Save the current route name for later comparision
@@ -123,7 +126,7 @@ export function useNavigationPersistence(storage: any, persistenceKey: string) {
     if (!isRestored) restoreState()
   }, [isRestored])
 
-  return { onNavigationStateChange, restoreState, isRestored, initialNavigationState }
+  return { onNavigationStateChange, restoreState, isRestored, initialNavigationState, routeNameRef }
 }
 
 /**

@@ -1,23 +1,29 @@
 import React from "react";
-import { Button, StyleSheet, Text, TouchableOpacity } from "react-native";
-import MaskedView from "@react-native-community/masked-view";
+import { GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import { Icons } from "../assets/icons";
 import useTheme from "../hooks/useTheme";
 
 type PrimaryButtonProps = {
   children: string,
+  height?: number,
+  startIcon?: React.ReactNode,
+  onPress: (event: GestureResponderEvent) => void,
 }
 
-const PrimaryButton = ({children, ...props}: PrimaryButtonProps) => {
+const PrimaryButton = ({children, startIcon, height = 50, onPress, ...props}: PrimaryButtonProps) => {
   const { AppTheme } = useTheme()
 
   return (
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={{...styles.button, height }} onPress={onPress}>
     <LinearGradient
         colors={[AppTheme.color.palette.magenta, AppTheme.color.palette.blue]}
         start={{ x: 0, y: -2 }}
         end={{ x: 1, y: 2 }}
       style={styles.gradient}>
+      {startIcon ? <View style={{paddingRight: 20, paddingLeft: 0,}}>
+      {startIcon}
+      </View> : null}
       <Text style={styles.text}>{children}</Text>
     </LinearGradient>
   </TouchableOpacity>
@@ -32,11 +38,13 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     paddingLeft: 40,
     paddingRight: 40,
+    display: 'flex',
+    flexDirection: 'row',
   },
   button: {
-    height: 50,
     shadowColor: 'red',
     shadowOpacity: 1,
+    display: 'flex',
     shadowOffset: { width: 4, height: 4},
     shadowRadius: 0,
   },

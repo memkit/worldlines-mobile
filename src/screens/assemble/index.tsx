@@ -3,10 +3,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import PrimaryButton from '../../components/PrimaryButton';
 
 export const Assemble = () => {
+  const startAssembly = () => {
+    
+  }
+
   return (
     <View style={styles.assembleContainer}>
       <Text style={styles.assembleSubtitle}>Start assembling to create content with your friends!</Text>
-      <PrimaryButton>Assemble</PrimaryButton>
+      <PrimaryButton onPress={startAssembly}>Assemble</PrimaryButton>
     </View>
   )
 }
