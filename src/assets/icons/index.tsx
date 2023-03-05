@@ -15,6 +15,10 @@ const defaultTabBarPropsValue = {
     size: 24,
 }
 export const Icons = {
+    edit: (props: TabBarProps = defaultTabBarPropsValue) => <FontAwesome
+        name="pencil-alt"
+        size={props.size}
+        color={props.color} />,
     note: (props: TabBarProps = defaultTabBarPropsValue) => <FontAwesome
         name="sticky-note"
         size={props.size}

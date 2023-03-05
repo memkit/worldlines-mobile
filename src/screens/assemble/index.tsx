@@ -1,166 +1,78 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PrimaryButton from '../../components/PrimaryButton';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import useTheme from '../../hooks/useTheme';
+import { AssembleStart } from './AssembleStart';
+import { Assembling } from './Assembling';
 import { navigate } from '../../navigation';
+import Slider from '@react-native-community/slider';
 import { Icons } from '../../assets/icons';
 
 export type NavigatorParamList = {
   start: undefined,
   assembling: undefined,
-  minting: undefined,
+  mint: undefined,
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>()
 
-type ItemProps = {name: string, rssi: number, id: string, selected: boolean};
-
-const Item = ({name, id, rssi}: ItemProps) => {
-
-  // const N = 2.4;
-  // const rssiAtOneMeter = -44;
-  // const distance = Math.round(Math.pow(10, ((rssiAtOneMeter - rssi)/(10*N))));
-
-  return (
-    <View>
-      <Text>test</Text>
-    </View>
-  )
-  // return (
-  //   <View style={nodesStyles.container}>
-  //     <View style={nodesStyles.stack}>
-  //       <Text style={nodesStyles.name}>{name}</Text>
-  //     </View>
-  //     <Text style={nodesStyles.rssi}>{distance} meters</Text>
-  //   </View>
-  // )
-};
-
-const AssembleStart = () => {
-  const { AppTheme } = useTheme();
-
-  const [assembling, setAssembling] = useState(false);
-  const [showStart, setShowStart] = useState(false);
-  const [data, setData] = useState([{
-    id: '0x3acf....8a67',
-    name: 'mconstant.eth',
-    distance: 2,
-    selected: false,
-  }]);
-
-  const startAssembly = () => {
-    setAssembling(true);
-    setTimeout(() => {
-      console.log('setting data')
-      setData([
-        {
-          id: '0x3acf9e8a67',
-          name: 'mconstant.eth',
-          distance: 3,
-          selected: false,
-        }
-      ])
-    }, 3000);
-  }
-
-  const handleItemSelected = (item: ItemProps) => {
-    setData([
-      {
-        id: '0x3acf9e8a67',
-        name: 'mconstant.eth',
-        distance: 3,
-        selected: true,
-      }
-    ])
-    setShowStart(true);
-  }
-
-  const handleStart = () => {
-    navigate('assembling')
-  }
-
-  return (
-    <>
-      {assembling ?
-        <View style={styles.assembleContainer}>
-          <Text style={styles.assembleTitle}>Searching for assemblers near you!</Text>
-          <Text style={styles.assembleSubtitle}>Select assemblers to start a shared TimeLine session.</Text>
-          {data.map(item => (
-            <TouchableOpacity onPress={() => handleItemSelected(item)}>
-              <View style={item.selected ? nodesStyles.containerSelected : nodesStyles.container}>
-                <View style={nodesStyles.stack}>
-                  <Text style={nodesStyles.name}>{item.name}</Text>
-                </View>
-                <Text style={nodesStyles.rssi}>{item.distance} meters</Text>
-              </View>
-          </TouchableOpacity>
-          ))}
-          <ActivityIndicator color={AppTheme.color.palette.blue} size='large' />
-          <View style={{height: 40}} />
-          {showStart && <PrimaryButton onPress={handleStart}>Start</PrimaryButton>}
-      </View> :
-      <View style={styles.assembleContainer}>
-      <Text style={styles.assembleTitle}>Start assembling to create content with your friends!</Text>
-        <PrimaryButton onPress={startAssembly}>Assemble</PrimaryButton>
-      </View>}
-    </>
-  )
-}
-
-const Assembling = () => {
-  const finishAssembly = () => {
-
-  }
-
-  const [options] = useState([
-    {
-      name: 'Create a Note',
-      icon: <Icons.note color={'#F3B421'} size={30} />,
-      color: '#F3B421',
-    },
-    {
-      name: 'Record Audio',
-      icon: <Icons.audio color={'red'} size={30} />,
-      color: 'red',
-    },
-    {
-      name: 'Add Photo/Video',
-      icon: <Icons.camera color={'magenta'} size={30} />,
-      color: 'magenta',
-    },
-  ])
-
-  return (
-      <View style={styles.assembleContainer}>
-        <View style={styles.optionsContainer}>
-        {options.map(option => (
-          <View style={{...styles.optionContainer, borderColor: option.color }}>
-            {option.icon}
-            <Text style={styles.optionTitle}>{option.name}</Text>
-            </View>
-        ))}
-        </View>
-        <PrimaryButton onPress={finishAssembly}>Finish</PrimaryButton>
-        <TouchableOpacity style={styles.leaveButton}>
-          <Text style={styles.leaveButtonText}>Leave Assembly</Text>
-        </TouchableOpacity>
-      </View>
-  )
-}
-
 const Minting = () => {
-  const doMint = () => {
+  const [nft] = useState({
+    contents: [
+      {
+        type: 'note',
+        size: '2Kb',
+        time: '4:02AM'
+      },
+      {
+        type: 'audio',
+        size: '35Kb',
+        time: '4:05AM',
+      },
+      {
+        type: 'photo',
+        size: '4Mb',
+        time: '4:11AM',
+      },
+    ],
+  })
 
+  const [duration, setDuration] = useState(100);
+
+  const doMint = () => {
+    navigate('home', {screen: 'Lines'});
   }
 
+  const handleValueChange = (value: number) => {
+    setDuration(value)
+  }
+
+  const displayedNumber = duration < 3 ? Math.round(duration * 24) : duration < 14 ? Math.round(duration) : duration < 60 ? Math.round(duration / 7) : duration < 365 ? Math.round(duration / 30) : Math.round(duration / 365);
+  const displayedPeriod = duration < 3 ? 'hours' : duration < 14 ? 'days' : duration < 60 ? 'weeks' : duration < 365 ? 'months' : duration < (365*1.5) ? 'year' : 'years';
   return (
-    <View>
       <View style={styles.assembleContainer}>
-        <Text style={styles.assembleTitle}>Start assembling to create content with your friends!</Text>
-        <PrimaryButton onPress={doMint}>Mint this NFT</PrimaryButton>
+        <View style={styles.assemblyTitleContainer}>
+          <Text style={styles.assemblyTitle}>clever-octopus</Text>
+          <TouchableOpacity>
+            <Icons.edit color='darkgray' size={30} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.sliderContainer}>
+          <Text style={styles.sliderLabel}>24 hours</Text>
+        <Slider
+          style={{width: 200, height: 40}}
+          minimumValue={1}
+          maximumValue={1095}
+          value={100}
+          onValueChange={handleValueChange}
+          minimumTrackTintColor='cyan'
+          maximumTrackTintColor='lightgray'
+        />
+        <Text style={styles.sliderLabel}>3 years</Text>
+        </View>
+        <Text style={styles.durationLabel}>Your Mem will be stored for {displayedNumber} {displayedPeriod}.</Text>
+        <PrimaryButton onPress={doMint}>Mint for {(duration * 0.00175).toFixed(3)} MEMS</PrimaryButton>
       </View>
-    </View>
   )
 }
 
@@ -174,13 +86,55 @@ export const Assemble = () => {
     >
       <Stack.Screen name='start' component={AssembleStart} />
       <Stack.Screen name='assembling' component={Assembling} />
-      <Stack.Screen name='minting' component={Minting} />
-      
+      <Stack.Screen name='mint' component={Minting} />
     </Stack.Navigator>
   )
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
+  durationLabel: {
+    fontSize: 20,
+    textAlign: 'center',
+    paddingLeft: 75,
+    paddingRight: 75,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  sliderContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+  },
+  sliderLabel: {
+    fontSize: 16,
+    color: 'darkgray',
+    padding: 10,
+  },
+  assemblyTitleContainer: {
+    marginTop: -100,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 50,
+    marginLeft: 30,
+  },
+  assemblyTitle: {
+    textAlign: 'center',
+    fontSize: 30,
+    paddingRight: 10,
+    fontWeight: '500',
+    lineHeight: 40,
+    paddingTop: 0,
+  },
+  mintTitleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   leaveButtonText: {
     textAlign: 'center',
     textDecorationLine: 'underline',
@@ -238,7 +192,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const nodesStyles = StyleSheet.create({
+export const nodesStyles = StyleSheet.create({
   loadingContainer: {
     padding: 20,
   },

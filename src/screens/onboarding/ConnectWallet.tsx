@@ -12,7 +12,7 @@ export const ConnectWallet = () => {
 
   return (
     <View style={styles.connectContainer}>
-      <Text style={styles.connectTitle}>Connect Metamask Wallet</Text>
+      <Text style={styles.connectTitle}>Connect Your Wallet</Text>
       <PrimaryButton startIcon={<Icons.metamask color={''} />} height={80} onPress={() => {navigate(routes.home)}}>Connect MetaMask Wallet</PrimaryButton>
     </View>
   );
