@@ -50,7 +50,7 @@ const HomeTabNavigator = () => {
             <Tab.Screen
                 name="Lines"
                 options={(route) => ({
-                    tabBarLabel: 'Lines',
+                    tabBarLabel: 'Mems',
                     tabBarLabelStyle: styles.tabBarText,
                     headerShown: false,
                     tabBarIcon: ({ focused, color, size }) => {
