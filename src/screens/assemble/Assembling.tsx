@@ -30,19 +30,31 @@ export const Assembling = () => {
 
   return (
     <View style={styles.assembleContainer}>
-      <View style={styles.assemblyTitleContainer}>
+      <View style={styles.assemblyTitleContainerNegative}>
         <Text style={styles.assemblyTitle}>clever-octopus</Text>
         <TouchableOpacity>
           <Icons.edit color='darkgray' size={30} />
         </TouchableOpacity>
       </View>
       <View style={styles.optionsContainer}>
-        {options.map(option => (
+        {/* {options.map(option => (
           <TouchableOpacity style={{ ...styles.optionContainer, borderColor: option.color }}>
             {option.icon}
             <Text style={styles.optionTitle}>{option.name}</Text>
           </TouchableOpacity>
-        ))}
+        ))} */}
+        <TouchableOpacity style={{ ...styles.optionContainer, borderColor: '#F3B421' }}>
+          <Icons.note color={'#F3B421'} size={30} />
+          <Text style={styles.optionTitle}>Create a Note</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{ ...styles.optionContainer, borderColor: 'red' }}>
+          <Icons.audio color={'red'} size={30} />
+          <Text style={styles.optionTitle}>Record Audio</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{ ...styles.optionContainer, borderColor: 'magenta' }}>
+          <Icons.camera color={'magenta'} size={30} />
+          <Text style={styles.optionTitle}>Add Photo/Video</Text>
+        </TouchableOpacity>
       </View>
       <PrimaryButton onPress={finishAssembly}>Finish</PrimaryButton>
       <TouchableOpacity style={styles.leaveButton}>

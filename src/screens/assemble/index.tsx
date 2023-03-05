@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
-import { Button, FlatList, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import PrimaryButton from '../../components/PrimaryButton';
+import React from 'react';
+import { Button, FlatList, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { AssembleStart } from './AssembleStart';
 import { Assembling } from './Assembling';
-import { navigate } from '../../navigation';
-import Slider from '@react-native-community/slider';
-import { Icons } from '../../assets/icons';
-import LinearGradient from "react-native-linear-gradient";
-import { MenuView } from '@react-native-menu/menu';
+import { Minting } from './Minting';
 
 export type NavigatorParamList = {
   start: undefined,
@@ -17,128 +12,6 @@ export type NavigatorParamList = {
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>()
-
-const Minting = () => {
-  const [nft] = useState({
-    contents: [
-      {
-        type: 'note',
-        title: 'Agenda',
-        size: '2Kb',
-        time: '4:02AM',
-        icon: <Icons.note color={'#F3B421'} size={30} />,
-      },
-      {
-        type: 'photo',
-        title: 'Whiteboard Drawing',
-        size: '4Mb',
-        time: '4:05AM',
-        icon: <Icons.camera color={'magenta'} size={30} />,
-      },
-      {
-        type: 'audio',
-        title: 'My Commentary',
-        size: '35Kb',
-        time: '4:11AM',
-        icon: <Icons.audio color={'red'} size={30} />,
-      },
-    ],
-  })
-
-  const [duration, setDuration] = useState(100);
-
-  const doMint = () => {
-    navigate('home', {screen: 'Lines'});
-  }
-
-  const handleValueChange = (value: number) => {
-    setDuration(value)
-  }
-
-  const displayedNumber = duration < 3 ? Math.round(duration * 24) : duration < 14 ? Math.round(duration) : duration < 60 ? Math.round(duration / 7) : duration < 365 ? Math.round(duration / 30) : Math.round(duration / 365);
-  const displayedPeriod = duration < 3 ? 'hours' : duration < 14 ? 'days' : duration < 60 ? 'weeks' : duration < 365 ? 'months' : duration < (365*1.5) ? 'year' : 'years';
-  return (
-      <View style={styles.assembleContainer}>
-        <View style={styles.assemblyTitleContainer}>
-          <Text style={styles.assemblyTitle}>clever-octopus</Text>
-          <TouchableOpacity>
-            <Icons.edit color='darkgray' size={30} />
-          </TouchableOpacity>
-        </View>
-        <LinearGradient
-          colors={['#00FFFF', '#17C8FF', '#329BFF', '#4C64FF', '#6536FF', '#8000FF']}
-          start={{x: 0.0, y: 1.0}} end={{x: 1.0, y: 1.0}}
-          style={styles.nftGradient}
-        >
-
-        <View style={styles.nftContainer}>
-          {nft.contents.map(item => (
-            <View style={styles.nftRowContainer}>
-              <View style={styles.nftTimeContainer}>
-                <View style={styles.nftTimeLine} />
-                <View style={styles.nftTimeDot} />
-                <Text style={styles.nftTimestampLabel}>{item.time}</Text>
-                <View style={styles.nftTimeDot} />
-                <View style={styles.nftTimeLine} />
-              </View>
-              {item.icon}
-              <MenuView
-                onPressAction={({ nativeEvent }) => {
-                  console.warn(JSON.stringify(nativeEvent));
-                }}
-                actions={[
-                  {
-                    id: 'rename',
-                    title: 'Rename',
-                    titleColor: '#46F289',
-                    subtitle: 'Share action on SNS',
-                    image: Platform.select({
-                      ios: 'pencil.and.outline',
-                      android: 'ic_menu_share',
-                    }),
-                    imageColor: 'black',
-                  },
-                  {
-                    id: 'destructive',
-                    title: 'Remove',
-                    attributes: {
-                      destructive: true,
-                    },
-                    image: Platform.select({
-                      ios: 'trash',
-                      android: 'ic_menu_delete',
-                    }),
-                  },
-                ]}
-                shouldOpenOnLongPress={true}
-              >
-                <TouchableOpacity style={styles.artifactDetailsContainer}>
-                  <Text style={styles.artifactLabel}>{item.title}</Text>
-                  <Text style={styles.sizeLabel}>{item.size}</Text>
-                </TouchableOpacity>
-              </MenuView>
-            </View>
-          ))}
-        </View>
-        </LinearGradient>
-        <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>24 hours</Text>
-        <Slider
-          style={{width: 200, height: 40}}
-          minimumValue={1}
-          maximumValue={1095}
-          value={100}
-          onValueChange={handleValueChange}
-          minimumTrackTintColor='cyan'
-          maximumTrackTintColor='lightgray'
-        />
-        <Text style={styles.sliderLabel}>3 years</Text>
-        </View>
-        <Text style={styles.durationLabel}>Your Mem will be stored for {displayedNumber} {displayedPeriod}.</Text>
-        <PrimaryButton onPress={doMint}>Mint for {(duration * 0.00179817352).toFixed(3)} MEMS</PrimaryButton>
-      </View>
-  )
-}
 
 export const Assemble = () => {
 
@@ -232,13 +105,22 @@ export const styles = StyleSheet.create({
     color: 'darkgray',
     padding: 10,
   },
-  assemblyTitleContainer: {
+  assemblyTitleContainerNegative: {
     marginTop: -100,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 50,
+    paddingBottom: 30,
+    marginLeft: 30,
+  },
+  assemblyTitleContainer: {
+    marginTop: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 30,
     marginLeft: 30,
   },
   assemblyTitle: {
