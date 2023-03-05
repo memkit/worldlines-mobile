@@ -1,0 +1,43 @@
+{
+  "common": {
+    "ok": "OK!",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "heartRate": {
+    "title": "Heart Rate",
+    "shortForm": "(HR)",
+    "average": "Daily Average"
+  },
+  "heartRateVariability": {
+    "title": "Heart Rate Variability",
+    "shortForm": "(HRV)",
+    "average": "Daily Average"
+  },
+  "RespirationRate": {
+    "title": "Respiration Rate",
+    "average": "Daily Average"
+  },
+  "LifeEvents": {
+    "title": "Life Events",
+    "average": "Daily Total"
+  },
+  "errorScreen": {
+    "title": "Something went wrong!",
+    "friendlySubtitle": "This is the screen that your users will see in production when an error is thrown.",
+    "traceTitle": "Error from %{name} stack",
+    "reset": "RESET APP"
+  },
+  "stressStatus": {
+    "title": "Your Stress Resiliency is {{status}}",
+    "subTitle": "So far, so good! Keeping your stress resiliency score above %{score} will keep you primed for the day."
+  },
+  "circularProgress": {
+    "startText": "Today",
+    "endText": "of 100"
+  },
+  "homescreen": {
+    "connectDevice": "Connect to %{deviceName}",
+    "findDevice": "Find My Scosche"
+  }
+}
